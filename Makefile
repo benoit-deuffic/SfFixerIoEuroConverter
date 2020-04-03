@@ -2,7 +2,7 @@ clean:
 	docker system prune -a -f
 
 compose:
-	docker-compose up --build -d
+	docker-compose up --build -d && docker-compose up -d
 
 start:
 	docker-compose start
