@@ -22,6 +22,7 @@ COPY --chown=www-data:www-data ./app/composer.* /var/www/project/app/
 
 # Create the storage directory and make it writeable by PHP
 RUN mkdir -p /var/www/project/app/var/logs && \
+    mkdir -p /var/www/project/app/var/cache && \
     mkdir -p /var/www/project/app/var/runtime && \
     chown -R www-data:www-data /var/www/project/app/var
 
