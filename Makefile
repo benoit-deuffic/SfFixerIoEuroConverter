@@ -1,3 +1,11 @@
+SUPPORTED_COMMANDS := composer-require
+SUPPORTS_MAKE_ARGS := $(findstring $(firstword $(MAKECMDGOALS)), $(SUPPORTED_COMMANDS))
+ifneq "$(SUPPORTS_MAKE_ARGS)" ""
+  COMMAND_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(COMMAND_ARGS):;@:)
+endif
+
+
 clean:
 	docker system prune -a -f
 
@@ -24,3 +32,7 @@ cc:
 deploy:
 	docker-compose -f docker-compose.deploy.yml build fixerio
 	docker push bdeuffic/sf_fixerio_euroconverter:latest
+
+composer-require:
+	docker-compose run php composer require --prefer-source --prefer-stable $(COMMAND_ARGS)
+

@@ -28,8 +28,6 @@ RUN mkdir -p /var/www/html/app/var/cache \
 
 WORKDIR /var/www/html/app
 
-RUN ln -s public web
-
 # Do a `composer install` without running any Composer scripts
 # - If `composer.lock` is present, it will install what is in the lock file
 # - If `composer.lock` is missing, it will update to the latest dependencies
@@ -43,9 +41,9 @@ CMD if [ ! -f "./composer.lock" ]; then \
         composer install --no-scripts --optimize-autoloader --no-interaction; \
     fi \
     && \
-    chown -R www-data:www-data /var/www/project/app/vendor \
+    chown -R www-data:www-data /var/www/html/app/vendor \
     && \
-    chown -R www-data:www-data /var/www/project/app/var \
+    chown -R www-data:www-data /var/www/html/app/var \
     && \
     composer update \
     && \
