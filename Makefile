@@ -20,3 +20,7 @@ down:
 
 cc:
 	docker-compose run php bin/console cache:clear
+
+deploy:
+	docker-compose -f docker-compose.deploy.yml build fixerio
+	docker push bdeuffic/sf_fixerio_euroconverter:latest

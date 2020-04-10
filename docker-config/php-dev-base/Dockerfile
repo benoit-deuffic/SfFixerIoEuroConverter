@@ -59,7 +59,7 @@ RUN apt-get update \
         xdebug
 
 # Append our php.ini overrides to the end of the file
-RUN echo "upload_max_filesize = 10M" > /usr/local/etc/php/php.ini && \
+RUN echo "upload_max_filesize = 10M" >> /usr/local/etc/php/php.ini && \
     echo "post_max_size = 10M" >> /usr/local/etc/php/php.ini && \
     echo "max_execution_time = 300" >> /usr/local/etc/php/php.ini && \
     echo "memory_limit = 256M" >> /usr/local/etc/php/php.ini && \

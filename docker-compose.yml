@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.7'
 
 services:
   # nginx - web server
@@ -13,19 +13,19 @@ services:
     ports:
       - "8000:80"
     volumes:
-#      - cpresources:/var/www/project/app/web/cpresources
       - ./app/public:/var/www/project/app/public:cached
   # php - personal home page
   php:
     build:
       context: .
       dockerfile: ./docker-config/php-dev-craft/Dockerfile
+    image: bdeuffic/sf_fixerio_euroconverter
     env_file:
       *env
     expose:
       - "9000"
     volumes:
-      - ./app:/var/www/project/app:cached
+      - ./app:/var/www/project/app:consistent
       - ./app/vendor:/var/www/project/app/vendor:delegated
       - ./app/var/logs:/var/www/project/app/var/logs:delegated
       - ./app/var/cache:/var/www/project/app/var/cache:delegated
