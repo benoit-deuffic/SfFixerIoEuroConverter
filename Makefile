@@ -34,5 +34,5 @@ deploy:
 	docker push bdeuffic/sf_fixerio_euroconverter:latest
 
 composer-require:
-	docker-compose run php composer require --prefer-source --prefer-stable $(COMMAND_ARGS)
+	docker-compose run php composer require --prefer-dist --prefer-stable $(COMMAND_ARGS)
 
