@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class BaseController extends AbstractController
+class FixerIoController extends AbstractController
 {
     /**
      * @Route("/", methods={"GET","HEAD"}, name="accueil")
