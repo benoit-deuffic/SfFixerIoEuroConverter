@@ -1,11 +1,12 @@
 FROM bdeuffic/alpine-php-dev-base
 
 # Install packages
-RUN apt-get update \
+RUN apk update \
     && \
     # apt Debian packages
-    apt-get install -y \
+    apk add \
         nano \
+        postgresql-dev \
     && \
     # Install PHP extensions
     docker-php-ext-install \
@@ -15,12 +16,18 @@ RUN apt-get update \
     # Install Composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 
-WORKDIR /var/www/html/app
+WORKDIR /var/www/project
+
+# Copy over the directories/files php needs access to
+COPY --chown=www-data:www-data ./app/composer.* /var/www/project/app/
 
 # Create the cache  directory and make it writeable by PHP
-RUN mkdir -p var/cache \ 
+RUN mkdir -p /var/www/project/app/var/cache \ 
     && \
-    chown -R www-data:www-data var/cache
+    chown -R www-data:www-data /var/www/project/app/var
+
+
+WORKDIR /var/www/project/app
 
 # Do a `composer install` without running any Composer scripts
 # - If `composer.lock` is present, it will install what is in the lock file
@@ -35,16 +42,10 @@ CMD if [ ! -f "./composer.lock" ]; then \
         composer install --no-scripts --optimize-autoloader --no-interaction; \
     fi \
     && \
-    chown -R www-data:www-data /var/www/html/app/vendor \
+    chown -R www-data:www-data /var/www/project/app/vendor \
     && \
-    chown -R www-data:www-data /var/www/html/app/var \
+    chown -R www-data:www-data /var/www/project/app/var \
     && \
-    composer update
-
-# Copy over the directories/files php needs access to
-COPY --chown=www-data:www-data ./app ./
-
-# finish composer update
-RUN composer dump-autoload --no-scripts --no-dev --optimize
-
-CMD php-fpm
+    composer update \
+    && \
+    php-fpm

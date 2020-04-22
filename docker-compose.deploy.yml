@@ -4,6 +4,6 @@ services:
   fixerio:
     build:
       context: .
-      dockerfile: ./docker-config/sffixerio/Dockerfile
+      dockerfile: ./docker-config/sffixerio/Dockerfile.alpine
     image: bdeuffic/sf_fixerio_euroconverter
 
