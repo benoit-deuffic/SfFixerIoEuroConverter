@@ -42,7 +42,7 @@ CMD if [ ! -f "./composer.lock" ]; then \
     composer update
 
 # Copy over the directories/files php needs access to
-COPY --chown=www-data:www-data ./app ./
+COPY --chown=82:82 ./app ./
 
 # finish composer update
 RUN composer dump-autoload --no-scripts --no-dev --optimize

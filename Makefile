@@ -1,5 +1,3 @@
-path = docker
-
 clean:
 	docker system prune -a -f
 
@@ -15,3 +13,7 @@ rerun:  rebuild	run
 
 compose:
 	docker-compose up --build -d
+
+publish:
+	docker-compose -f docker-compose.deploy.yml build fixerio
+	docker-compose -f docker-compose.deploy.yml push fixerio
