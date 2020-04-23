@@ -3,15 +3,15 @@
 namespace App\Controller;
 
 use App\Service\fixerIoConverterServiceInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\Controller\Annotations ;
+use FOS\RestBundle\Request\ParamFetcher;
 
 
-class FixerIoController extends AbstractController
+class FixerIoController extends AbstractFOSRestController
 {
     /**
      * @Route("/", methods={"GET","HEAD"}, name="accueil")
@@ -32,16 +32,25 @@ class FixerIoController extends AbstractController
 
 
     /**
-     * @Route("/api/currency/convert/{currency}/{amount}", methods={"GET","HEAD"}, name="get_convert")
+     * @Route("/api/currency/convert", methods={"GET","HEAD"}, name="get_convert")
+     *
+     * @Annotations\QueryParam(name="currency", default="USD"))
+     * @Annotations\QueryParam(name="amount", default="10"))
+     *
      */
 
-    public function getConvert(fixerIoConverterServiceInterface $ioConverter, string $currency, string $amount)
+    public function getConvert(fixerIoConverterServiceInterface $ioConverter, ParamFetcher $params)
     {
-
-        $value = floatval($amount);
+        $value = floatval($params->get('amount'));
+        $currency = $params->get('currency');
         $convert = $ioConverter->calcConvert($currency, $value);
-        $return = array('query'=>array('to'=>$currency), 'result'=> $convert );
+        $data = array('query'=>array('to'=>$currency), 'result'=> $convert );
 
-        return new Response(json_encode($return));
+        $view = $this->view($data, 200);
+        $view->setFormat('json');
+        $view->setData($data);
+
+        return $this->handleView($view);
+
     }
 }
