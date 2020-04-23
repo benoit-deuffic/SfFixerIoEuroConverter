@@ -26,7 +26,7 @@ services:
       - "9000"
     volumes:
       - ./app:/var/www/project/app:consistent
-      - ./app/vendor:/var/www/project/app/vendor:delegated
+      - ./app/vendor:/var/www/project/app/vendor:consistent
       - ./app/var/logs:/var/www/project/app/var/logs:delegated
       - ./app/var/cache:/var/www/project/app/var/cache:delegated
 

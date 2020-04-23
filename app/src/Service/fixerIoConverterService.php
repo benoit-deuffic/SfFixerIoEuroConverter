@@ -34,7 +34,8 @@ class fixerIoConverterService implements fixerIoConverterServiceInterface
             $convert = $amount * $rate;
             return $convert;
         } else {
-            return $convert; }
+            return $convert;
+        }
 
     }
 
