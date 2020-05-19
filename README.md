@@ -60,6 +60,6 @@ Avoir docker et docker-compose.
 
 Une fois le dépot cloné:
 ```
-$ make compose
+$ make
 ```
 Ouvrir un navigateur sur http://localhost:8081
